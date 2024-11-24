@@ -61,4 +61,19 @@ class StudentController extends Controller
         $student->delete();
         return response()->json(['message' => 'Student deleted']);
     }
+
+
+
+
+    public function studentsWithoutTimeLogs()
+    {
+        $studentsWithoutTimeLogs = Student::whereDoesntHave('timeLogs')
+            ->select('id', 'first_name', 'last_name', 'email') // Limit fields
+            ->get();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $studentsWithoutTimeLogs,
+        ]);
+    }
 }

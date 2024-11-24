@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+    header, footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 1em 0;
+    }
+    .container {
+      margin: 20px auto;
+      max-width: 800px;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background: #f9f9f9;
+      margin-bottom: 10px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .task-header {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .task-detail {
+      font-size: 0.9em;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+	<header>
+	  <h1>Task Manager</h1>
+	</header>
+
+	<div class="container">
+	  <h1>Task List</h1>
+	  <ul id="task-list">
+		<!-- Tasks will be appended here -->
+	  </ul>
+	</div>
+
+	<footer>
+	  <p>&copy; 2024 Task Manager</p>
+	</footer>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    const apiUrl = 'http://127.0.0.1:8000/api/tasks';
+
+    // Fetch tasks from the API
+    $.ajax({
+      url: apiUrl,
+      method: 'GET',
+      success: function (data) {
+        const taskList = $('#task-list');
+		
+		
+        if (data.length > 0) {
+          data.forEach(task => {
+            const taskItem = `
+              <li>
+                <div class="task-header">${task.description} <span>(${task.status})</span></div>
+                <div class="task-detail">Deadline: ${task.deadline} | Priority: ${task.priority}</div>
+                <div class="task-detail">Assigned To: ${task.assigned_to.first_name} ${task.assigned_to.last_name}</div>
+                <div class="task-detail">Assigned By: ${task.assigned_by.first_name} ${task.assigned_by.last_name}</div>
+              </li>
+            `;
+            taskList.append(taskItem);
+          });
+        } else {
+          taskList.append('<li>No tasks available.</li>');
+        }
+      },
+      error: function (err) {
+        console.error('Error fetching tasks:', err);
+        $('#task-list').append('<li>Error fetching tasks. Please try again later.</li>');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -22,4 +22,10 @@ class Student extends Model
         'role',
         'hours_worked',
     ];
+
+    public function timeLogs()
+    {
+        return $this->hasMany(TimeLog::class);
+    }
+
 }

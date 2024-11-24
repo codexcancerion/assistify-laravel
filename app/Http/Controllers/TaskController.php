@@ -7,59 +7,75 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Fetch all tasks
     public function index()
     {
-        //
+        return Task::with(['assignedTo', 'assignedBy'])->get(); // Eager load relationships
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    // Fetch a specific task by ID
+    public function show($id)
     {
-        //
+        $task = Task::with(['assignedTo', 'assignedBy'])->find($id);
+
+        if (!$task) {
+            return response()->json(['message' => 'Task not found'], 404);
+        }
+
+        return $task;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Create a new task
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'description' => 'required|string',
+            'deadline' => 'required|date',
+            'priority' => 'required|string',
+            'status' => 'required|string',
+            'assigned_to' => 'required|exists:students,id',
+            'assigned_by' => 'required|exists:supervisors,id',
+        ]);
+
+        $task = Task::create($validated);
+
+        return response()->json($task, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Task $task)
+    // Update an existing task
+    public function update(Request $request, $id)
     {
-        //
+        $task = Task::find($id);
+
+        if (!$task) {
+            return response()->json(['message' => 'Task not found'], 404);
+        }
+
+        $validated = $request->validate([
+            'description' => 'sometimes|required|string',
+            'deadline' => 'sometimes|required|date',
+            'priority' => 'sometimes|required|string',
+            'status' => 'sometimes|required|string',
+            'assigned_to' => 'sometimes|required|exists:students,id',
+            'assigned_by' => 'sometimes|required|exists:supervisors,id',
+        ]);
+
+        $task->update($validated);
+
+        return $task;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Task $task)
+    // Delete a task
+    public function destroy($id)
     {
-        //
-    }
+        $task = Task::find($id);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Task $task)
-    {
-        //
-    }
+        if (!$task) {
+            return response()->json(['message' => 'Task not found'], 404);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Task $task)
-    {
-        //
+        $task->delete();
+
+        return response()->json(['message' => 'Task deleted successfully'], 200);
     }
 }
