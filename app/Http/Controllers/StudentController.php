@@ -10,7 +10,10 @@ class StudentController extends Controller
     
     public function index()
     {
-        return Student::all();
+        $student = Student::all();
+        return response()->json([
+            'data' => $student,
+        ], 201);
     }
 
     public function store(Request $request)
@@ -18,10 +21,11 @@ class StudentController extends Controller
         $validated = $request->validate([
             'first_name' => 'required|string',
             'last_name' => 'required|string',
+            'student_id' => 'required|string',
+            'department' => 'required|string',
             'email' => 'required|email|unique:students,email',
             'password' => 'required|string',
             'role' => 'required|string',
-            'hours_worked' => 'integer',
         ]);
     
         $validated['password'] = bcrypt($validated['password']);

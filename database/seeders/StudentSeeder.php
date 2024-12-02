@@ -18,6 +18,8 @@ class StudentSeeder extends Seeder
             [
                 'first_name' => 'John',
                 'last_name' => 'Doe',
+                'student_id' => '2023-01-01',
+                'department' => 'CIT',
                 'email' => 'john.doe@example.com',
                 'password' => bcrypt('password123'),
                 'role' => 'working_scholar',
@@ -28,6 +30,8 @@ class StudentSeeder extends Seeder
             [
                 'first_name' => 'Jane',
                 'last_name' => 'Smith',
+                'student_id' => '2023-01-01',
+                'department' => 'CIT',
                 'email' => 'jane.smith@example.com',
                 'password' => bcrypt('password456'),
                 'role' => 'working_scholar',
@@ -38,6 +42,8 @@ class StudentSeeder extends Seeder
             [
                 'first_name' => 'Bob',
                 'last_name' => 'Johnson',
+                'student_id' => '2023-01-01',
+                'department' => 'CIT',
                 'email' => 'bob.johnson@example.com',
                 'password' => bcrypt('password789'),
                 'role' => 'working_scholar',

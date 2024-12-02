@@ -21,9 +21,9 @@ Route::apiResource('time-logs', TimeLogController::class);
 // STUDENT
 Route::get('/students/no-time-logs', [StudentController::class, 'studentsWithoutTimeLogs']);
 
-
+Route::post('/supervisors/login', [SupervisorController::class, 'login']);
 // Route::get('/students', [StudentController::class, 'index']);
-// Route::post('/students', [StudentController::class, 'store']);
+// Route::post('students', [StudentController::class, 'store']);
 // Route::get('/students/{student_id}', [StudentController::class, 'show']);
 // Route::put('/students/{id}', [StudentController::class, 'update']);
 // Route::delete('/students/{id}', [StudentController::class, 'destroy']);
