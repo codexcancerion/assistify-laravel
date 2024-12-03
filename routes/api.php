@@ -22,6 +22,8 @@ Route::apiResource('time-logs', TimeLogController::class);
 Route::get('/students/no-time-logs', [StudentController::class, 'studentsWithoutTimeLogs']);
 
 Route::post('/supervisors/login', [SupervisorController::class, 'login']);
+Route::post('/osas/login', [OSASController::class, 'login']);
+
 // Route::get('/students', [StudentController::class, 'index']);
 // Route::post('students', [StudentController::class, 'store']);
 // Route::get('/students/{student_id}', [StudentController::class, 'show']);
