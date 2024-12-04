@@ -30,4 +30,10 @@ class Student extends Model
         return $this->hasMany(TimeLog::class);
     }
 
+    public function supervisor()
+{
+    return $this->belongsTo(Supervisor::class);
+}
+
+
 }

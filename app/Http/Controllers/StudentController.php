@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
 
 class StudentController extends Controller
 {
@@ -66,8 +68,43 @@ class StudentController extends Controller
         return response()->json(['message' => 'Student deleted']);
     }
 
+    public function login(Request $request) {
+        $validated = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+    
+        $student = Student::where('email', $validated['email'])->first();
+    
+        if (!$student || !Hash::check($validated['password'], $student->password)) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        }
+    
+        return response()->json([
+            'message' => 'Login successful',
+            'data' => ['id' => $student->id]
+        ]);
+    }
 
+    public function assignSupervisor(Request $request, $id)
+    {
+        // Validate the request
+        $request->validate([
+            'supervisor_id' => 'required|exists:supervisors,id', // Ensure the supervisor exists
+        ]);
 
+        // Find the student
+        $student = Student::findOrFail($id);
+
+        // Update the supervisor_id
+        $student->supervisor_id = $request->input('supervisor_id');
+        $student->save();
+
+        return response()->json([
+            'message' => 'Supervisor assigned successfully',
+            'student' => $student,
+        ], 200);
+    }
 
     public function studentsWithoutTimeLogs()
     {

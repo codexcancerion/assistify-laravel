@@ -20,6 +20,9 @@ Route::apiResource('time-logs', TimeLogController::class);
 
 // STUDENT
 Route::get('/students/no-time-logs', [StudentController::class, 'studentsWithoutTimeLogs']);
+Route::post('/students/login', [StudentController::class, 'login']);
+Route::put('/students/{id}/assign-supervisor', [StudentController::class, 'assignSupervisor']);
+
 
 Route::post('/supervisors/login', [SupervisorController::class, 'login']);
 Route::post('/osas/login', [OSASController::class, 'login']);
