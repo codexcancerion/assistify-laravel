@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('osas', function (Blueprint $table) {
             $table->id('id');
             $table->string('name');
+            $table->string('password');
             $table->string('email')->unique();
             $table->string('role');
             $table->timestamps();

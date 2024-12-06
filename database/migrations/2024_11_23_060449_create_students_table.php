@@ -16,6 +16,8 @@ return new class extends Migration
         $table->string('first_name');
         $table->string('last_name');
         $table->string('email')->unique();
+        $table->string('student_id');
+        $table->string('department');
         $table->string('password');
         $table->string('role');
         $table->integer('hours_worked')->default(0);

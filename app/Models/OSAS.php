@@ -19,7 +19,8 @@ class OSAS extends Model
      */
     protected $fillable = [
         'name',     
-        'email',
+        'email',   
+        'password',
         'role',
     ];
 }

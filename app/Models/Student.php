@@ -16,7 +16,9 @@ class Student extends Model
      */
     protected $fillable = [
         'first_name',      
-        'last_name',
+        'last_name',      
+        'student_id',      
+        'department',
         'email',
         'password',
         'role',
@@ -27,5 +29,11 @@ class Student extends Model
     {
         return $this->hasMany(TimeLog::class);
     }
+
+    public function supervisor()
+{
+    return $this->belongsTo(Supervisor::class);
+}
+
 
 }

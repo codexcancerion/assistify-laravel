@@ -10,3 +10,7 @@ Route::get('/', function () {
 Route::get('/students', function () {
     return view('students');
 });
+
+Route::get('/auth/wsregister', function () {
+    return view('auth/wsregister');
+});

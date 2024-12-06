@@ -21,4 +21,10 @@ class Supervisor extends Model
         'password',
         'role',
     ];
+
+    public function students()
+{
+    return $this->hasMany(Student::class);
+}
+
 }
