@@ -7,10 +7,22 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    // Fetch all tasks
-    public function index()
+    // Fetch tasks for a specific student
+    public function index(Request $request)
     {
-        return Task::with(['assignedTo', 'assignedBy'])->get(); // Eager load relationships
+        $studentId = $request->query('student_id');
+
+        if ($studentId) {
+            // Fetch tasks assigned to the specified student
+            $tasks = Task::with(['assignedTo', 'assignedBy'])
+                         ->where('assigned_to', $studentId)  // Filter tasks by the student
+                         ->get();
+        } else {
+            // Fetch all tasks if no student_id is provided
+            $tasks = Task::with(['assignedTo', 'assignedBy'])->get();
+        }
+
+        return response()->json($tasks, 200);  // Return tasks as a JSON response
     }
 
     // Fetch a specific task by ID
@@ -22,7 +34,7 @@ class TaskController extends Controller
             return response()->json(['message' => 'Task not found'], 404);
         }
 
-        return $task;
+        return response()->json($task, 200);
     }
 
     // Create a new task
@@ -62,7 +74,7 @@ class TaskController extends Controller
 
         $task->update($validated);
 
-        return $task;
+        return response()->json($task, 200);
     }
 
     // Delete a task
@@ -77,5 +89,23 @@ class TaskController extends Controller
         $task->delete();
 
         return response()->json(['message' => 'Task deleted successfully'], 200);
+    }
+
+    // Set the task status to Completed
+    public function markAsCompleted($id)
+    {
+        // Find the task by its ID
+        $task = Task::find($id);
+
+        // Check if the task exists
+        if (!$task) {
+            return response()->json(['message' => 'Task not found'], 404);
+        }
+
+        // Update the task's status to 'Completed'
+        $task->status = 'Completed';
+        $task->save();
+
+        return response()->json(['message' => 'Task marked as completed', 'task' => $task], 200);
     }
 }

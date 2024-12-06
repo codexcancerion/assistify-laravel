@@ -27,6 +27,15 @@ Route::put('/students/{id}/assign-supervisor', [StudentController::class, 'assig
 Route::post('/supervisors/login', [SupervisorController::class, 'login']);
 Route::post('/osas/login', [OSASController::class, 'login']);
 
+
+
+Route::post('/time-logs/login', [TimeLogController::class, 'login']);
+Route::post('/time-logs/logout', [TimeLogController::class, 'logout']);
+
+
+Route::patch('/tasks/{id}/complete', [TaskController::class, 'markAsCompleted']);
+
+
 // Route::get('/students', [StudentController::class, 'index']);
 // Route::post('students', [StudentController::class, 'store']);
 // Route::get('/students/{student_id}', [StudentController::class, 'show']);
