@@ -22,9 +22,13 @@ Route::apiResource('time-logs', TimeLogController::class);
 Route::get('/students/no-time-logs', [StudentController::class, 'studentsWithoutTimeLogs']);
 Route::post('/students/login', [StudentController::class, 'login']);
 Route::put('/students/{id}/assign-supervisor', [StudentController::class, 'assignSupervisor']);
+Route::put('/students/{id}/remove-supervisor', [StudentController::class, 'removeSupervisor']);
 
-
+Route::get('/supervisors/{id}', [SupervisorController::class, 'getSupervisorById']);
 Route::post('/supervisors/login', [SupervisorController::class, 'login']);
+Route::post('/supervisor/students', [SupervisorController::class, 'getStudents']);
+
+
 Route::post('/osas/login', [OSASController::class, 'login']);
 
 

@@ -17,7 +17,7 @@ class TimeLogsTableSeeder extends Seeder
         $timeLogs = [];
 
         // Only use student IDs 1, 2, and 3
-        foreach ([1, 2, 3] as $studentId) {
+        foreach ([1,2,3] as $studentId) {
             for ($i = 1; $i <= 10; $i++) {
                 $checkIn = now()->subDays(rand(1, 30))->subHours(rand(1, 8));
                 $checkOut = $checkIn->copy()->addHours(rand(1, 8));

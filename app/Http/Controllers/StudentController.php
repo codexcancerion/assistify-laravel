@@ -106,6 +106,27 @@ class StudentController extends Controller
         ], 200);
     }
 
+    
+    public function removeSupervisor(Request $request, $id)
+    {
+        // Validate the request
+        $request->validate([
+            'supervisor_id' => 'required|exists:supervisors,id', // Ensure the supervisor exists
+        ]);
+
+        // Find the student
+        $student = Student::findOrFail($id);
+
+        // Update the supervisor_id
+        $student->supervisor_id = null;
+        $student->save();
+
+        return response()->json([
+            'message' => 'Supervisor assigned successfully',
+            'student' => $student,
+        ], 200);
+    }
+
     public function studentsWithoutTimeLogs()
     {
         $studentsWithoutTimeLogs = Student::whereDoesntHave('timeLogs')
