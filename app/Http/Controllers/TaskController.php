@@ -7,23 +7,30 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    // Fetch tasks for a specific student
+    // Fetch tasks for a specific student or supervisor
     public function index(Request $request)
     {
         $studentId = $request->query('student_id');
+        $supervisorId = $request->query('supervisor_id');  // New query parameter for supervisor
 
         if ($studentId) {
             // Fetch tasks assigned to the specified student
             $tasks = Task::with(['assignedTo', 'assignedBy'])
-                         ->where('assigned_to', $studentId)  // Filter tasks by the student
-                         ->get();
+                        ->where('assigned_to', $studentId)  // Filter tasks by the student
+                        ->get();
+        } elseif ($supervisorId) {
+            // Fetch tasks assigned by the specified supervisor
+            $tasks = Task::with(['assignedTo', 'assignedBy'])
+                        ->where('assigned_by', $supervisorId)  // Filter tasks by the supervisor
+                        ->get();
         } else {
-            // Fetch all tasks if no student_id is provided
+            // Fetch all tasks if no student_id or supervisor_id is provided
             $tasks = Task::with(['assignedTo', 'assignedBy'])->get();
         }
 
         return response()->json($tasks, 200);  // Return tasks as a JSON response
     }
+
 
     // Fetch a specific task by ID
     public function show($id)
